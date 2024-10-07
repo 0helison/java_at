@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Gerenciamento de Consultas
+  title: Consult Management
   version: v1.0
-  description: API para gerenciar usuários e consultas médicas.
+  description: API for managing users and medical consults.
 
 servers:
   - url: http://localhost:8080
@@ -12,7 +12,7 @@ paths:
     get:
       tags:
         - user-resource
-      summary: "get user for ID"
+      summary: "Get user by ID"
       operationId: showUser
       parameters:
         - name: id
@@ -23,19 +23,18 @@ paths:
             format: int64
       responses:
         "200":
-          description: "Usuário encontrado com sucesso."
+          description: "User found successfully."
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
         "404":
-          description: "Usuário não encontrado."
+          description: "User not found."
         "400":
-          description: "Requisição inválida. O ID fornecido pode estar incorreto ou mal formatado."
+          description: "Invalid request. The provided ID may be incorrect or poorly formatted."
     put:
       tags:
         - user-resource
-      summary: "update user"
+      summary: "Update user"
       operationId: updateUser
       parameters:
         - name: id
@@ -50,17 +49,27 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
+            examples:
+              userExample:
+                summary: "User Example"
+                value:
+                  username: "johndoe 2"
+                  email: "johndoe2@example.com"
+                  cpf: "12345678922"
+                  phone: "1234567891"
+                  birthday: "01/01/1990"
+                  permission: "SECRETARY"
       responses:
         "200":
-          description: "Usuário atualizado com sucesso."
+          description: "User updated successfully."
         "400":
-          description: "Dados fornecidos inválidos. Verifique os campos obrigatórios."
+          description: "Invalid data provided. Check required fields."
         "404":
-          description: "Usuário não encontrado."
+          description: "User not found."
     delete:
       tags:
         - user-resource
-      summary: "delete user"
+      summary: "Delete user"
       operationId: deleteUser
       parameters:
         - name: id
@@ -71,29 +80,25 @@ paths:
             format: int64
       responses:
         "200":
-          description: "Usuário deletado com sucesso."
+          description: "User deleted successfully."
         "404":
-          description: "Usuário não encontrado."
+          description: "User not found."
   /user:
     get:
       tags:
         - user-resource
-      summary: "Listar todos os usuários"
-      operationId: listarUsuarios
+      summary: "List all users"
+      operationId: listUsers
       responses:
         "200":
-          description: "Lista todos os usuários"
+          description: "Lists all users"
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
-
     post:
       tags:
         - user-resource
-      summary: "register a new user"
+      summary: "Register a new user"
       operationId: registerUser
       requestBody:
         required: true
@@ -101,17 +106,27 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
+            examples:
+              userExample:
+                summary: "User Example"
+                value:
+                  username: "johndoe"
+                  email: "johndoe@example.com"
+                  cpf: "12345678900"
+                  phone: "1234567890"
+                  birthday: "01/01/1980"
+                  permission: "ADMIN"
       responses:
         "201":
-          description: "Usuário cadastrado com sucesso."
+          description: "User registered successfully."
         "400":
-          description: "Dados inválidos fornecidos. Verifique os campos obrigatórios."
+          description: "Invalid data provided. Check required fields."
 
-  /consults/{id}:
+  /consult/{id}:
     get:
       tags:
         - consult-resource
-      summary: "show consult for ID"
+      summary: "Show consult by ID"
       operationId: showConsult
       parameters:
         - name: id
@@ -122,19 +137,18 @@ paths:
             format: int64
       responses:
         "200":
-          description: "Consulta encontrada com sucesso."
+          description: "Consultation found successfully."
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Consult"
         "404":
-          description: "Consulta não encontrada."
+          description: "Consultation not found."
         "400":
-          description: "Requisição inválida. O ID fornecido pode estar incorreto ou mal formatado."
+          description: "Invalid request. The provided ID may be incorrect or poorly formatted."
     put:
       tags:
         - consult-resource
-      summary: "update consult"
+      summary: "Update consult"
       operationId: updateConsult
       parameters:
         - name: id
@@ -149,17 +163,26 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Consult"
+            examples:
+              consultExample:
+                summary: "Consult Example"
+                value:
+                  consultDate: "06/10/2024"
+                  professional: "Dr. Carlos"
+                  specialty: "Ophthalmologist"
+                  user:
+                    userId: 2
       responses:
         "200":
-          description: "Consulta atualizada com sucesso."
+          description: "Consultation updated successfully."
         "400":
-          description: "Dados fornecidos inválidos. Verifique os campos obrigatórios."
+          description: "Invalid data provided. Check required fields."
         "404":
-          description: "Consulta não encontrada."
+          description: "Consultation not found."
     delete:
       tags:
         - consult-resource
-      summary: "delete consult"
+      summary: "Delete consult"
       operationId: deleteConsult
       parameters:
         - name: id
@@ -170,29 +193,26 @@ paths:
             format: int64
       responses:
         "200":
-          description: "Consulta deletada com sucesso."
+          description: "Consultation deleted successfully."
         "404":
-          description: "Consulta não encontrada."
+          description: "Consultation not found."
 
-  /consults:
+  /consult:
     get:
       tags:
         - consult-resource
-      summary: "list all consults"
+      summary: "List all consults"
       operationId: listConsults
       responses:
         "200":
-          description: "Lista de consultas retornada com sucesso."
+          description: "List of consultations returned successfully."
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Consult"
     post:
       tags:
         - consult-resource
-      summary: "register a new consult"
+      summary: "Register a new consult"
       operationId: registerConsult
       requestBody:
         required: true
@@ -200,11 +220,20 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Consult"
+            examples:
+              consultExample:
+                summary: "Consult Example"
+                value:
+                  consultDate: "07/10/2024"
+                  professional: "Dr. Smith"
+                  specialty: "Cardiology"
+                  user:
+                    userId: 1
       responses:
         "201":
-          description: "Consulta cadastrada com sucesso."
+          description: "Consultation registered successfully."
         "400":
-          description: "Dados inválidos fornecidos. Verifique os campos obrigatórios."
+          description: "Invalid data provided. Check required fields."
 
 components:
   schemas:
@@ -225,8 +254,9 @@ components:
         birthday:
           type: string
           format: date
+          pattern: "^\\d{2}/\\d{2}/\\d{4}$"
         permission:
-          $ref: "#/components/schemas/Permission"  # Referência ao enum Permission
+          $ref: "#/components/schemas/Permission"
 
     Consult:
       type: object
@@ -237,6 +267,7 @@ components:
         consultDate:
           type: string
           format: date
+          pattern: "^\\d{2}/\\d{2}/\\d{4}$"
         professional:
           type: string
         specialty:
@@ -247,7 +278,5 @@ components:
     Permission:
       type: string
       enum:
-        - USER
         - ADMIN
-        - DOCTOR
-        - NURSE
+        - SECRETARY

@@ -51,6 +51,7 @@ public class ConsultService {
         newConsult.setConsultDate(consult.getConsultDate());
         newConsult.setProfessional(consult.getProfessional());
         newConsult.setSpecialty(consult.getSpecialty());
+        newConsult.setUser(consult.getUser());
     }
 
 }

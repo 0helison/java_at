@@ -1,6 +1,7 @@
 package br.com.ponteshelison.medicalconsult.user.domain;
 
 import br.com.ponteshelison.medicalconsult.user.Enum.Permission;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -22,10 +23,13 @@ public class User {
     private String cpf;
     @Column(name = "PHONE")
     private String phone;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "BIRTHDAY")
     private Date birthday;
     @Column(name = "PERMISSION")
     private Permission permission;
+
+
 
     public User() {}
 

@@ -1,0 +1,253 @@
+openapi: 3.0.1
+info:
+  title: Gerenciamento de Consultas
+  version: v1.0
+  description: API para gerenciar usuários e consultas médicas.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /user/{id}:
+    get:
+      tags:
+        - user-resource
+      summary: "get user for ID"
+      operationId: showUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Usuário encontrado com sucesso."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: "Usuário não encontrado."
+        "400":
+          description: "Requisição inválida. O ID fornecido pode estar incorreto ou mal formatado."
+    put:
+      tags:
+        - user-resource
+      summary: "update user"
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: "Usuário atualizado com sucesso."
+        "400":
+          description: "Dados fornecidos inválidos. Verifique os campos obrigatórios."
+        "404":
+          description: "Usuário não encontrado."
+    delete:
+      tags:
+        - user-resource
+      summary: "delete user"
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Usuário deletado com sucesso."
+        "404":
+          description: "Usuário não encontrado."
+  /user:
+    get:
+      tags:
+        - user-resource
+      summary: "Listar todos os usuários"
+      operationId: listarUsuarios
+      responses:
+        "200":
+          description: "Lista todos os usuários"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+    post:
+      tags:
+        - user-resource
+      summary: "register a new user"
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: "Usuário cadastrado com sucesso."
+        "400":
+          description: "Dados inválidos fornecidos. Verifique os campos obrigatórios."
+
+  /consults/{id}:
+    get:
+      tags:
+        - consult-resource
+      summary: "show consult for ID"
+      operationId: showConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Consulta encontrada com sucesso."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consult"
+        "404":
+          description: "Consulta não encontrada."
+        "400":
+          description: "Requisição inválida. O ID fornecido pode estar incorreto ou mal formatado."
+    put:
+      tags:
+        - consult-resource
+      summary: "update consult"
+      operationId: updateConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consult"
+      responses:
+        "200":
+          description: "Consulta atualizada com sucesso."
+        "400":
+          description: "Dados fornecidos inválidos. Verifique os campos obrigatórios."
+        "404":
+          description: "Consulta não encontrada."
+    delete:
+      tags:
+        - consult-resource
+      summary: "delete consult"
+      operationId: deleteConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Consulta deletada com sucesso."
+        "404":
+          description: "Consulta não encontrada."
+
+  /consults:
+    get:
+      tags:
+        - consult-resource
+      summary: "list all consults"
+      operationId: listConsults
+      responses:
+        "200":
+          description: "Lista de consultas retornada com sucesso."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Consult"
+    post:
+      tags:
+        - consult-resource
+      summary: "register a new consult"
+      operationId: registerConsult
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consult"
+      responses:
+        "201":
+          description: "Consulta cadastrada com sucesso."
+        "400":
+          description: "Dados inválidos fornecidos. Verifique os campos obrigatórios."
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+        phone:
+          type: string
+        birthday:
+          type: string
+          format: date
+        permission:
+          $ref: "#/components/schemas/Permission"  # Referência ao enum Permission
+
+    Consult:
+      type: object
+      properties:
+        consultId:
+          type: integer
+          format: int64
+        consultDate:
+          type: string
+          format: date
+        professional:
+          type: string
+        specialty:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+
+    Permission:
+      type: string
+      enum:
+        - USER
+        - ADMIN
+        - DOCTOR
+        - NURSE

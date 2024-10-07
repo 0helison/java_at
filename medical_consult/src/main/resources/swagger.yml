@@ -1,0 +1,282 @@
+openapi: 3.0.1
+info:
+  title: Consult Management
+  version: v1.0
+  description: API for managing users and medical consults.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /user/{id}:
+    get:
+      tags:
+        - user-resource
+      summary: "Get user by ID"
+      operationId: showUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "User found successfully."
+          content:
+            application/json:
+              schema:
+        "404":
+          description: "User not found."
+        "400":
+          description: "Invalid request. The provided ID may be incorrect or poorly formatted."
+    put:
+      tags:
+        - user-resource
+      summary: "Update user"
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+            examples:
+              userExample:
+                summary: "User Example"
+                value:
+                  username: "johndoe 2"
+                  email: "johndoe2@example.com"
+                  cpf: "12345678922"
+                  phone: "1234567891"
+                  birthday: "01/01/1990"
+                  permission: "SECRETARY"
+      responses:
+        "200":
+          description: "User updated successfully."
+        "400":
+          description: "Invalid data provided. Check required fields."
+        "404":
+          description: "User not found."
+    delete:
+      tags:
+        - user-resource
+      summary: "Delete user"
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "User deleted successfully."
+        "404":
+          description: "User not found."
+  /user:
+    get:
+      tags:
+        - user-resource
+      summary: "List all users"
+      operationId: listUsers
+      responses:
+        "200":
+          description: "Lists all users"
+          content:
+            application/json:
+              schema:
+    post:
+      tags:
+        - user-resource
+      summary: "Register a new user"
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+            examples:
+              userExample:
+                summary: "User Example"
+                value:
+                  username: "johndoe"
+                  email: "johndoe@example.com"
+                  cpf: "12345678900"
+                  phone: "1234567890"
+                  birthday: "01/01/1980"
+                  permission: "ADMIN"
+      responses:
+        "201":
+          description: "User registered successfully."
+        "400":
+          description: "Invalid data provided. Check required fields."
+
+  /consult/{id}:
+    get:
+      tags:
+        - consult-resource
+      summary: "Show consult by ID"
+      operationId: showConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Consultation found successfully."
+          content:
+            application/json:
+              schema:
+        "404":
+          description: "Consultation not found."
+        "400":
+          description: "Invalid request. The provided ID may be incorrect or poorly formatted."
+    put:
+      tags:
+        - consult-resource
+      summary: "Update consult"
+      operationId: updateConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consult"
+            examples:
+              consultExample:
+                summary: "Consult Example"
+                value:
+                  consultDate: "06/10/2024"
+                  professional: "Dr. Carlos"
+                  specialty: "Ophthalmologist"
+                  user:
+                    userId: 2
+      responses:
+        "200":
+          description: "Consultation updated successfully."
+        "400":
+          description: "Invalid data provided. Check required fields."
+        "404":
+          description: "Consultation not found."
+    delete:
+      tags:
+        - consult-resource
+      summary: "Delete consult"
+      operationId: deleteConsult
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Consultation deleted successfully."
+        "404":
+          description: "Consultation not found."
+
+  /consult:
+    get:
+      tags:
+        - consult-resource
+      summary: "List all consults"
+      operationId: listConsults
+      responses:
+        "200":
+          description: "List of consultations returned successfully."
+          content:
+            application/json:
+              schema:
+    post:
+      tags:
+        - consult-resource
+      summary: "Register a new consult"
+      operationId: registerConsult
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consult"
+            examples:
+              consultExample:
+                summary: "Consult Example"
+                value:
+                  consultDate: "07/10/2024"
+                  professional: "Dr. Smith"
+                  specialty: "Cardiology"
+                  user:
+                    userId: 1
+      responses:
+        "201":
+          description: "Consultation registered successfully."
+        "400":
+          description: "Invalid data provided. Check required fields."
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+        phone:
+          type: string
+        birthday:
+          type: string
+          format: date
+          pattern: "^\\d{2}/\\d{2}/\\d{4}$"
+        permission:
+          $ref: "#/components/schemas/Permission"
+
+    Consult:
+      type: object
+      properties:
+        consultId:
+          type: integer
+          format: int64
+        consultDate:
+          type: string
+          format: date
+          pattern: "^\\d{2}/\\d{2}/\\d{4}$"
+        professional:
+          type: string
+        specialty:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+
+    Permission:
+      type: string
+      enum:
+        - ADMIN
+        - SECRETARY

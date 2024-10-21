@@ -1,11 +1,13 @@
 package br.com.ponteshelison.medicalconsult.user.domain;
 
+import br.com.ponteshelison.medicalconsult.consult.domain.Consult;
 import br.com.ponteshelison.medicalconsult.user.Enum.Permission;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -28,8 +30,6 @@ public class User {
     private Date birthday;
     @Column(name = "PERMISSION")
     private Permission permission;
-
-
 
     public User() {}
 

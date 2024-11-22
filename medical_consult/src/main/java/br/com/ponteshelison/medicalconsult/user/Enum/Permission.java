@@ -2,7 +2,8 @@ package br.com.ponteshelison.medicalconsult.user.Enum;
 
 public enum Permission {
     ADMIN("ADMIN"),
-    SECRETARY("SECRETARY");
+    SECRETARY("SECRETARY"),
+    PATIENT("PATIENT");
 
     private final String description;
 

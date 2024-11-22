@@ -1,7 +1,7 @@
 package br.com.ponteshelison.medicalconsult.user.resources;
 
 import br.com.ponteshelison.medicalconsult.user.domain.User;
-import br.com.ponteshelison.medicalconsult.user.services.UserService;
+import br.com.ponteshelison.medicalconsult.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

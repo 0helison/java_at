@@ -1,6 +1,7 @@
 package br.com.ponteshelison.medicalconsult.user.domain;
 
 import br.com.ponteshelison.medicalconsult.consult.domain.Consult;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.ponteshelison.medicalconsult.user.Enum.Permission;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -29,7 +30,12 @@ public class User {
     @Column(name = "BIRTHDAY")
     private Date birthday;
     @Column(name = "PERMISSION")
+    @Enumerated(EnumType.STRING)
     private Permission permission;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Consult> consults;
 
     public User() {}
 
